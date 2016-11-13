@@ -204,6 +204,10 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookConfig($args)
     {
         $post = $args['post'];
+        $perPage = (int) $post['geolocation_per_page'];
+        if ($perPage <= 0) {
+            $post['geolocation_per_page'] = $this->_options['geolocation_per_page'];
+        }
         foreach ($this->_options as $optionKey => $optionValue) {
             if (isset($post[$optionKey])) {
                 set_option($optionKey, $post[$optionKey]);

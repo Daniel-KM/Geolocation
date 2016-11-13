@@ -2,6 +2,20 @@
     <legend><?php echo __('General Settings'); ?></legend>
     <div class="field">
         <div class="two columns alpha">
+            <label for="geolocation_api_key"><?php echo __('API Key'); ?></label>
+        </div>
+        <div class="inputs five columns omega">
+            <p class="explanation">
+                <?php
+                echo __('Google API key for this project. For more information, see: %s',
+                    '<a target="_blank" href="https://developers.google.com/maps/web/">developers.google.com/maps/web</a>'
+                ); ?>
+            </p>
+            <?php echo $this->formText('geolocation_api_key', get_option('geolocation_api_key')); ?>
+        </div>
+    </div>
+    <div class="field">
+        <div class="two columns alpha">
             <?php echo $this->formLabel('geolocation_default_latitude',
                 __('Default Latitude')); ?>
         </div>
@@ -54,15 +68,6 @@
                     'terrain' => __('Terrain'),
             ));
             ?>
-        </div>
-    </div>
-    <div class="field">
-        <div class="two columns alpha">
-            <label for="api_key"><?php echo __('API Key'); ?></label>
-        </div>
-        <div class="inputs five columns omega">
-            <p class="explanation"><?php echo __('Google API key for this project.'); ?></p>
-            <?php echo $this->formText('api_key', get_option('geolocation_api_key')); ?>
         </div>
     </div>
 </fieldset>

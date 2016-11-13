@@ -47,15 +47,13 @@
             <label><?php echo __('Find by address or point to a location'); ?></label>
         </div>
         <div class="inputs five columns omega">
-            <div class="input-block">
-                <input type="text" name="current-geolocation[address]" id="geolocation_address" value="" placeholder="<?php echo __('Address to find'); ?>" class="textinput" />
-                <button type="button" name="geolocation_location_find" id="geolocation_location_find" class="button small green">
-                    <?php echo __('Find'); ?>
-                </button>
-                <button type="button" name="geolocation_location_add" id="geolocation_location_add" class="button small blue">
-                    <?php echo __('Add'); ?>
-                </button>
-            </div>
+            <input type="text" name="current-geolocation[address]" id="geolocation_address" value="" placeholder="<?php echo __('Address to find'); ?>" class="textinput" />
+            <button type="button" name="geolocation_location_find" id="geolocation_location_find" class="button small green">
+                <?php echo __('Find'); ?>
+            </button>
+            <button type="button" name="geolocation_location_add" id="geolocation_location_add" class="button small blue">
+                <?php echo __('Add'); ?>
+            </button>
         </div>
     </div>
     <div  id="omeka-map-form" class="seven columns alpha omega"></div>
