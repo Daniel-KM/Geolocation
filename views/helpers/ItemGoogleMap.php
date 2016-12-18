@@ -83,7 +83,7 @@ class Geolocation_View_Helper_ItemGoogleMap extends Zend_View_Helper_Abstract
                 $divId, $width, $height);
             if (count($points) == 1) {
                 $point = reset($points);
-                $figcaption = sprintf('<div class="geolocation-latitude accessible">%s}</div>', __('Latitude: %s', $point['latitude']));
+                $figcaption = sprintf('<div class="geolocation-latitude accessible">%s</div>', __('Latitude: %s', $point['latitude']));
                 $figcaption .= sprintf('<div class="geolocation-longitude accessible">%s</div>', __('Longitude: %s', $point['longitude']));
                 if (!empty($point['address'])) $figcaption .= sprintf('<div class="geolocation-address accessible">%s</div>', __('Address: %s', $point['address']));
                 if (!empty($point['description'])) $figcaption .= sprintf('<div class="geolocation-description accessible">%s</div>', __('Description: %s', $point['description']));

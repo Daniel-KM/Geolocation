@@ -56,5 +56,5 @@
             </button>
         </div>
     </div>
-    <div  id="omeka-map-form" class="seven columns alpha omega"></div>
+    <div id="omeka-map-form" class="seven columns alpha omega"></div>
 </div>
