@@ -24,13 +24,16 @@ class Table_Location extends Omeka_Db_Table
      * @param boolean $flat Whether or not to return the list of locations as a
      * simple unordered list. If the param $item is not an array, the list is
      * always flat.
+     * @param boolean $asMultiple If set when only first location is searched,
+     * the output will be the same as multiple, with a sub-array of one location
+     * for each item.
      * @return array|Location A location, or a list of locations if a flat
      * response is requested, or an associative array of locations, with the
      * item id as key. If the parameter "find only first" is true, the value
-     * will be a single location, else the list of locations associated to the
-     * item.
+     * will be a single location (unless the output is requested to be indexed
+     * as multiple), else the list of locations associated to the item.
      */
-    public function findLocationsByItem($item, $findOnlyFirst = false, $flat = false)
+    public function findLocationsByItem($item, $findOnlyFirst = false, $flat = false, $asMultiple = false)
     {
         $db = $this->_db;
 
@@ -47,7 +50,8 @@ class Table_Location extends Omeka_Db_Table
         $select = $this->getSelectForFindBy($params);
 
         // If only a single location is request, return the first one found.
-        if (!is_array($item) && $findOnlyFirst) {
+        $onlyOneItem = !is_array($item);
+        if ($onlyOneItem && $findOnlyFirst && !$asMultiple) {
             $location = $this->fetchObject($select);
             return $location;
         }
@@ -63,14 +67,14 @@ class Table_Location extends Omeka_Db_Table
         // Get the locations.
         $locations = $this->fetchObjects($select);
 
-        if (!is_array($item) || $flat) {
+        if ($onlyOneItem || $flat) {
             return $locations;
         }
 
         // Return an associative array of locations where the key is the item_id
         // of the location.
         $indexedLocations = array();
-        if ($findOnlyFirst) {
+        if ($findOnlyFirst && !$asMultiple) {
             foreach ($locations as $loc) {
                 $indexedLocations[$loc['item_id']] = $loc;
             }

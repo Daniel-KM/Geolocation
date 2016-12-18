@@ -19,7 +19,9 @@ class Geolocation_View_Helper_MapForm extends Zend_View_Helper_Abstract
         $center = $this->_getCenter();
         $center['show'] = false;
 
-        $locations = $db->getTable('Location')->findLocationsByItem($item);
+        $allowMultipleLocations = (boolean) get_option('geolocation_allow_multiple_locations');
+
+        $locations = $db->getTable('Location')->findLocationsByItem($item, !$allowMultipleLocations, false, true);
         // The first location is used to prepare the map (center, zoom, type).
         $location = reset($locations);
 
@@ -33,6 +35,7 @@ class Geolocation_View_Helper_MapForm extends Zend_View_Helper_Abstract
             'id' => 'location_form',
         );
         $options['mapType'] = $mapType;
+        $options['allowMultiple'] = $allowMultipleLocations;
 
         // This option is kept for future evolution, but set false currently.
         // $options['confirmLocationChange'] = empty($location) ? false : $item->exists();
@@ -49,6 +52,7 @@ class Geolocation_View_Helper_MapForm extends Zend_View_Helper_Abstract
             'item' => $item,
             'address' => $address,
             'locations' => $locations,
+            'allowMultipleLocations' => $allowMultipleLocations,
         ));
 
         $js = sprintf('var anOmekaMapForm = new OmekaMapForm(%s, %s, %s);',

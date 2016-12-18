@@ -19,9 +19,10 @@ class Geolocation_MapController extends Omeka_Controller_AbstractActionControlle
 
         // Only get item/location data for the KML output.
         if ($this->_helper->contextSwitch->getCurrentContext() == 'kml') {
+            $allowMultipleLocations = (boolean) get_option('geolocation_allow_multiple_locations');
             $items = $table->findBy($params, $limit, $currentPage);
             $this->view->items = $items;
-            $this->view->locations = $locationTable->findLocationsByItem($items);
+            $this->view->locations = $locationTable->findLocationsByItem($items, !$allowMultipleLocations, false, true);
         }
         // Only get pagination data for the "normal" page.
         else {
@@ -56,8 +57,9 @@ class Geolocation_MapController extends Omeka_Controller_AbstractActionControlle
         $limit = (int) get_option('geolocation_per_page');
         $currentPage = $this->getParam('page', 1);
 
+        $allowMultipleLocations = (boolean) get_option('geolocation_allow_multiple_locations');
         $items = $table->findBy($params, $limit, $currentPage);
         $this->view->items = $items;
-        $this->view->locations = $locationTable->findLocationsByItem($items);
+        $this->view->locations = $locationTable->findLocationsByItem($items, !$allowMultipleLocations, false, true);
     }
 }

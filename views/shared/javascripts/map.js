@@ -424,6 +424,13 @@ function OmekaMapForm(mapDivId, center, options) {
         }
     });
 
+    // Make the button Set set the current point.
+    jQuery('#geolocation_location_set').bind('click', function (event) {
+        that.setLocation();
+        event.stopPropagation();
+        return false;
+    });
+
     // Make the button Add add the point to the list.
     jQuery('#geolocation_location_add').bind('click', function (event) {
         that.addLocation();
@@ -492,6 +499,35 @@ OmekaMapForm.prototype = {
                 return null;
             }
         });
+    },
+
+    /* Set the current geolocation. */
+    setLocation: function () {
+        // To simplify the process, remove all locations then use addLocation().
+        // This requires to do some the same check before.
+
+        // Get the point and check it.
+        if (!this.markers.length) {
+            alert('Error: No point defined!');
+            return null;
+        }
+        var marker = this.markers[0];
+        var point = marker.getPosition();
+
+        var addressElement = document.getElementsByName('current-geolocation[address]')[0];
+        var latitudeElement = document.getElementsByName('current-geolocation[latitude]')[0];
+        var longitudeElement = document.getElementsByName('current-geolocation[longitude]')[0];
+        var zoomElement = document.getElementsByName('current-geolocation[zoom_level]')[0];
+
+        if (latitudeElement.value == '' || longitudeElement.value == '') {
+            alert('Error: No point defined!');
+            return null;
+        }
+
+        // Remove all rows, since "set" means only one location.
+        jQuery('table.geolocation-locations tbody tr').remove();
+
+        this.addLocation();
     },
 
     /* Add the current geolocation to the list of points. */

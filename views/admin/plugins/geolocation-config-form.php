@@ -16,6 +16,20 @@
     </div>
     <div class="field">
         <div class="two columns alpha">
+            <?php echo $this->formLabel('geolocation_allow_multiple_locations',
+                __('Allow multiple locations')); ?>
+        </div>
+        <div class="inputs five columns omega">
+            <p class="explanation">
+                <?php echo __('If checked, each item will be able to manage multiple locations.'); ?>
+                <?php echo __('If unchecked, only the first location of each item will be displayed and all other locations will be removed when the item will be saved.'); ?>
+            </p>
+            <?php echo $this->formCheckbox('geolocation_allow_multiple_locations', true,
+                array('checked' => (boolean) get_option('geolocation_allow_multiple_locations'))); ?>
+        </div>
+    </div>
+    <div class="field">
+        <div class="two columns alpha">
             <?php echo $this->formLabel('geolocation_default_latitude',
                 __('Default Latitude')); ?>
         </div>

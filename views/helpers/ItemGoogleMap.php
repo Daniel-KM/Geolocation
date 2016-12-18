@@ -19,6 +19,11 @@ class Geolocation_View_Helper_ItemGoogleMap extends Zend_View_Helper_Abstract
             $item = get_current_record('item');
         }
 
+        $allowMultipleLocations = (boolean) get_option('geolocation_allow_multiple_locations');
+        if (!$allowMultipleLocations) {
+            $onlyFirst = true;
+        }
+
         $divId = "item-map-{$item->id}";
         // First location only.
         if ($onlyFirst) {

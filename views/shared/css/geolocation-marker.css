@@ -9,6 +9,7 @@
 button#geolocation_location_find {
     float: none;
 }
+button#geolocation_location_set,
 button#geolocation_location_add {
     float: right;
 }

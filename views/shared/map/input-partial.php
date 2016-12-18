@@ -1,13 +1,15 @@
 <div class="geolocation-list seven columns alpha omega">
-    <h3><?php echo __('List of locations'); ?></h3>
+    <h3><?php echo $allowMultipleLocations ?  __('List of locations') : __('Current location'); ?></h3>
     <table id="geolocation-locations-<?php echo $item ? $item->id : '0'; ?>" class="geolocation-locations">
         <colgroup><col /></colgroup>
         <thead>
             <tr>
                 <th>
+                    <?php if ($allowMultipleLocations): ?>
                     <button type="button" class="geolocation-locations-display button small green" name="geolocation_locations_display" id="geolocation_locations_display-<?php echo $item ? $item->id : '0'; ?>">
                         <?php echo __('All'); ?>
                     </button>
+                    <?php endif; ?>
                 </th>
                 <th><?php echo __('Latitude'); ?></th>
                 <th><?php echo __('Longitude'); ?></th>
@@ -27,6 +29,7 @@
                     echo $this->partial('map/input-partial-row.php', array(
                         'location' => $location,
                         'key' => $key,
+                        'allowMultipleLocations' => $allowMultipleLocations,
                     ));
                 endforeach;
             endif;
@@ -41,7 +44,7 @@
     </table>
 </div>
 <div class="geolocation-add-form seven columns alpha omega">
-    <h3><?php echo __('Add a new location'); ?></h3>
+    <h3><?php echo $allowMultipleLocations ? __('Add a new location') : __('Set the location'); ?></h3>
     <div class="field">
         <div id="location_form" class="two columns alpha">
             <label><?php echo __('Find by address or point to a location'); ?></label>
@@ -51,9 +54,15 @@
             <button type="button" name="geolocation_location_find" id="geolocation_location_find" class="button small green">
                 <?php echo __('Find'); ?>
             </button>
+            <?php if ($allowMultipleLocations): ?>
             <button type="button" name="geolocation_location_add" id="geolocation_location_add" class="button small blue">
                 <?php echo __('Add'); ?>
             </button>
+            <?php else: ?>
+            <button type="button" name="geolocation_location_set" id="geolocation_location_set" class="button small blue">
+                <?php echo __('Set'); ?>
+            </button>
+            <?php endif; ?>
         </div>
     </div>
     <div id="omeka-map-form" class="seven columns alpha omega"></div>

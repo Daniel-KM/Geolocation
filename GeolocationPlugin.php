@@ -54,6 +54,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
      * @var array Options and their default values.
      */
     protected $_options = array(
+        'geolocation_allow_multiple_locations' => true,
         'geolocation_default_latitude' => '38',
         'geolocation_default_longitude' => '-77',
         'geolocation_default_zoom_level' => '5',
@@ -158,6 +159,10 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
                 WHERE `map_type` NOT IN ('roadmap', 'satellite', 'hybrid', 'terrain');
             ";
             $db->query($sql);
+        }
+
+        if (version_compare($oldVersion, '2.3.3-2.2.5', '<')) {
+            set_option('geolocation_allow_multiple_locations', $this->_options['geolocation_allow_multiple_locations']);
         }
     }
 
@@ -329,6 +334,8 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             $locations = array('new-old' => $locations);
         }
 
+        $allowMultipleLocations = (boolean) get_option('geolocation_allow_multiple_locations');
+
         // If we have filled out info for the geolocation, then submit to the db.
         foreach ($locations as $id => $values) {
             $values = array_map('trim', $values);
@@ -354,6 +361,12 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             // Update the location.
             $location->setPostData($values);
             $location->save();
+
+            // Keep only the first location if multiple locations are forbidden.
+            // The check is done here to manage previous checks.
+            if (!$allowMultipleLocations) {
+                break;
+            }
         }
 
         // If the form is empty, then we want to delete whatever location is
@@ -390,7 +403,7 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
             $height = get_option('geolocation_item_map_height') ?: '300px';
             $html = '<div id="geolocation">';
             $html .= '<h2>' . __('Geolocation') . '</h2>';
-            $html .= $view->itemGoogleMap($item, false, $width, $height);
+            $html .= $view->itemGoogleMap($item, !get_option('geolocation_allow_multiple_locations'), $width, $height);
             $html .= "</div>";
             echo $html;
         }
