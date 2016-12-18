@@ -19,7 +19,7 @@
             <?php
             if (empty($locations)):
                 $key = 0;?>
-                <tr id="geolocation-empty">
+                <tr id="geolocation-empty" class="geolocation-location location-empty">
                     <td colspan="5"><?php echo __('No location defined.'); ?></td>
                 </tr>
             <?php else:
