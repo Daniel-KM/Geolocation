@@ -1,11 +1,11 @@
 <div class="geolocation-list seven columns alpha omega">
     <h3><?php echo __('List of locations'); ?></h3>
-    <table id="geolocation-locations-<?php echo $item->id; ?>" class="geolocation-locations">
+    <table id="geolocation-locations-<?php echo $item ? $item->id : '0'; ?>" class="geolocation-locations">
         <colgroup><col /></colgroup>
         <thead>
             <tr>
                 <th>
-                    <button type="button" class="geolocation-locations-display button small green" name="geolocation_locations_display" id="geolocation_locations_display-<?php echo $item->id; ?>">
+                    <button type="button" class="geolocation-locations-display button small green" name="geolocation_locations_display" id="geolocation_locations_display-<?php echo $item ? $item->id : '0'; ?>">
                         <?php echo __('All'); ?>
                     </button>
                 </th>
